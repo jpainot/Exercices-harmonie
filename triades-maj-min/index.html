@@ -7,13 +7,23 @@
 :root{font-family:system-ui,-apple-system,sans-serif;color:#172033;background:#f5f6f8}*{box-sizing:border-box}body{margin:0;padding:24px}main{max-width:700px;margin:35px auto;text-align:center}h1{font-size:1.6rem;margin-bottom:8px}p{color:#536071}.card{background:white;border:1px solid #dce1e8;border-radius:20px;margin:26px 0 20px;padding:65px 15px;box-shadow:0 5px 24px #1720330a}.chord{font-size:clamp(3.2rem,12vw,6rem);font-weight:750;min-height:1.3em}.count{font-size:1rem;color:#667085}.controls{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap}button,select{font:inherit;border-radius:10px;padding:12px 18px;border:1px solid #aeb7c5;background:white;color:#172033;cursor:pointer;min-height:46px}button.primary{background:#172033;color:white;border-color:#172033}button:disabled{opacity:.5;cursor:not-allowed}label{display:flex;align-items:center;gap:8px}small{display:block;color:#667085;margin-top:22px}.progress{height:6px;background:#e7ebf1;border-radius:8px;overflow:hidden;margin-top:25px}.bar{height:100%;background:#3565a5;width:0%;transition:width .1s linear}
 
 .menu-row{text-align:left;margin:0 0 14px}.menu-link{display:inline-block;text-decoration:none;color:#2463b7;font-weight:650;padding:8px 12px;border-radius:9px;border:1px solid #dce3e9;background:white}.menu-link:hover,.menu-link:focus-visible{background:#edf3f9;outline:2px solid #8ca9c7;outline-offset:2px}
+
+/* Interface harmonisée */
+:root{--ink:#202c3c;--accent:#234b76;--muted:#617083;--line:#e3e8ef;--bg:#f6f8fb;color:var(--ink);background:var(--bg)}
+body{padding:22px 18px}main{max-width:880px;margin:22px auto}h1{font-family:Georgia,serif;font-weight:500;font-size:clamp(1.9rem,4vw,2.7rem);margin:14px 0 8px}main>p{margin:0 auto;max-width:600px;line-height:1.6}.menu-row{margin-bottom:24px}.menu-link{color:var(--accent);border-color:var(--line)}
+.card{border:1px solid var(--line);border-radius:22px;margin:30px 0 22px;padding:clamp(70px,11vh,130px) 22px 38px;box-shadow:0 8px 35px #1a31500b;min-height:340px;display:flex;flex-direction:column;justify-content:center}
+.chord{font-size:clamp(4.5rem,13vw,8rem);line-height:1.18;font-weight:700;letter-spacing:-.035em;overflow-wrap:anywhere}
+.count{font-size:1.05rem;margin-top:18px;color:var(--muted)}.progress{height:9px;margin-top:36px;background:#e7edf3}.bar{background:#356ba8}
+.controls{gap:10px}button,select{border-color:#cdd7e3;border-radius:11px;transition:background .15s,transform .15s,box-shadow .15s}button:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 3px 12px #1a315015}button.primary{background:var(--accent);border-color:var(--accent)}button:focus-visible,select:focus-visible{outline:3px solid #91b6e2;outline-offset:2px}
+small{max-width:680px;margin:28px auto 0;line-height:1.6}.shortcut-help{font-size:.82rem;color:var(--muted);margin:15px 0 0}.fullscreen-button{background:white}.card:fullscreen{width:100vw;height:100vh;min-height:100vh;margin:0;padding:7vh 6vw;border:0;border-radius:0;background:var(--bg);box-shadow:none;display:flex;justify-content:center}.card:fullscreen .chord{font-size:clamp(6rem,17vw,15rem)}.card:fullscreen .count{font-size:clamp(1.1rem,2vw,2rem)}.card:fullscreen .progress{width:min(850px,90%);margin:6vh auto 0;height:13px}.fullscreen-action{display:none}.card:fullscreen .fullscreen-action{display:inline-block;margin:28px auto 0;min-width:180px}.card:fullscreen .fullscreen-action[hidden]{display:none}.fullscreen-exit{display:none;position:absolute;right:22px;top:20px;background:white}.card:fullscreen .fullscreen-exit{display:block}@media(max-width:580px){main{margin:10px auto}.card{min-height:300px;padding:65px 14px 32px}.chord{font-size:clamp(3.8rem,14vw,6rem)}.controls label{width:100%;justify-content:center;margin-bottom:5px}}
 </style>
 </head>
 <body><main><div class="menu-row"><a class="menu-link" href="../">← Menu</a></div>
 <h1>Triades majeures et mineures</h1><p>Trouve et joue l’accord avant d’entendre la triade correspondante.</p>
-<section class="card" aria-live="polite"><div class="chord" id="chord">Prêt ?</div><div class="count" id="count">24 accords par série</div><div class="progress"><div class="bar" id="bar"></div></div></section>
-<div class="controls"><label for="speed">Temps par accord <select id="speed"><option value="1">1 s</option><option value="2">2 s</option><option value="3">3 s</option><option value="4">4 s</option><option value="6" selected>6 s</option><option value="8">8 s</option><option value="10">10 s</option><option value="12">12 s</option></select></label><button class="primary" id="start">Démarrer</button><button id="pause" disabled>Pause</button><button id="reset">Recommencer</button></div>
-<small>Les 12 triades majeures et les 12 mineures apparaissent dans un ordre aléatoire. À la fin du décompte, chaque accord retentit pendant 1,5 seconde avant le suivant.</small>
+<section class="card" id="exerciseCard" aria-live="polite"><button type="button" id="exitFullscreen" class="fullscreen-exit" aria-label="Quitter le plein écran">✕ Quitter le plein écran</button><div class="chord" id="chord">Prêt ?</div><div class="count" id="count">24 accords par série</div><div class="progress"><div class="bar" id="bar"></div></div><button type="button" class="primary fullscreen-action" id="fullscreenStart">Démarrer</button><button type="button" class="fullscreen-action" id="fullscreenPause" hidden>Pause</button></section>
+<div class="controls"><label for="speed">Temps par accord <select id="speed"><option value="1">1 s</option><option value="2">2 s</option><option value="3">3 s</option><option value="4">4 s</option><option value="6" selected>6 s</option><option value="8">8 s</option><option value="10">10 s</option><option value="12">12 s</option></select></label><button class="primary" id="start">Démarrer</button><button id="pause" disabled>Pause</button><button id="reset">Recommencer</button><button type="button" id="fullscreen" class="fullscreen-button">⛶ Plein écran</button></div>
+<div class="shortcut-help">Raccourcis : Entrée = démarrer · Espace = pause/reprendre · R = recommencer · Échap = quitter le plein écran</div>
+<small>Les 12 triades majeures et les 12 mineures apparaissent dans un ordre aléatoire. À la fin du décompte, chaque accord retentit pendant 2,5 secondes avant le suivant.</small>
 </main><script>
 (()=>{
   const roots=['Do','Do♯','Ré','Mi♭','Mi','Fa','Fa♯','Sol','La♭','La','Si♭','Si'];
@@ -97,6 +107,38 @@
     stopClock();silence();if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();
     idx=-1;deck=[];phase='idle';chord.textContent='Prêt ?';count.textContent='24 accords par série';bar.style.width='0%';start.textContent='Démarrer';pause.textContent='Pause';
   });
-  speed.addEventListener('change',()=>{if(phase==='countdown'&&!running)remaining=duration();});
+  const card=$('exerciseCard'),fullBtn=$('fullscreen'),exitFull=$('exitFullscreen');
+  const fullscreenStart=$('fullscreenStart'),fullscreenPause=$('fullscreenPause');
+  fullscreenStart.addEventListener('click',()=>start.click());
+  fullscreenPause.addEventListener('click',()=>pause.click());
+  function syncFullscreenControls(){
+    fullscreenStart.hidden=start.disabled;
+    fullscreenStart.textContent=start.textContent;
+    fullscreenPause.hidden=pause.disabled;
+    fullscreenPause.textContent=pause.textContent;
+  }
+  new MutationObserver(syncFullscreenControls).observe(start,{attributes:true,childList:true,characterData:true,subtree:true});
+  new MutationObserver(syncFullscreenControls).observe(pause,{attributes:true,childList:true,characterData:true,subtree:true});
+  syncFullscreenControls();
+  async function toggleFullscreen(){
+    try{if(document.fullscreenElement){await document.exitFullscreen();}else if(card.requestFullscreen){await card.requestFullscreen();}}
+    catch(e){console.warn('Plein écran indisponible',e)}
+  }
+  fullBtn.addEventListener('click',toggleFullscreen);
+  exitFull.addEventListener('click',()=>{if(document.fullscreenElement)document.exitFullscreen()});
+  document.addEventListener('fullscreenchange',()=>{fullBtn.textContent=document.fullscreenElement?'⛶ Quitter le plein écran':'⛶ Plein écran'});
+  document.addEventListener('keydown',e=>{
+    if(e.altKey||e.ctrlKey||e.metaKey||e.repeat)return;
+    if(['SELECT','INPUT','TEXTAREA'].includes(document.activeElement?.tagName))return;
+    if(e.code==='Space'){
+      e.preventDefault();
+      if(!pause.disabled)pause.click();
+    }else if(e.code==='Enter'){
+      if(!start.disabled){e.preventDefault();start.click();}
+    }else if(e.code==='KeyR'){
+      e.preventDefault();reset.click();
+    }
+  });
+  speed.addEventListener('change' ,()=>{if(phase==='countdown'&&!running)remaining=duration();});
 })();
 </script></body></html>
