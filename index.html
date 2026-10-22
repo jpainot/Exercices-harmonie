@@ -6,7 +6,7 @@
 <style>
 :root{color-scheme:light;--ink:#202c3c;--muted:#617083;--line:#e3e8ef;--accent:#234b76;--bg:#f6f8fb}
 *{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;color:var(--ink);line-height:1.5}
-main{max-width:880px;margin:0 auto;padding:70px 24px 90px}.eyebrow{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--accent)}h1{font-family:Georgia,serif;font-weight:500;font-size:clamp(2.3rem,6vw,3.7rem);line-height:1.12;margin:12px 0}header p{color:var(--muted);max-width:640px;margin:0 0 48px}section{margin:34px 0}h2{font-size:1.13rem;margin:0 0 14px;letter-spacing:.015em}.list{display:grid;gap:10px}.item{background:white;border:1px solid var(--line);border-radius:12px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 21px;text-decoration:none;color:inherit;box-shadow:0 2px 8px #1a315006;transition:transform .15s,border-color .15s,box-shadow .15s}.item:hover,.item:focus-visible{transform:translateY(-2px);border-color:#8ca9c7;box-shadow:0 6px 20px #1a315012;outline:none}.name{font-weight:650}.detail{display:block;font-size:.91rem;color:var(--muted);margin-top:3px}.action{white-space:nowrap;color:var(--accent);font-size:.9rem;font-weight:700}.action:after{content:' ↗'}footer{border-top:1px solid var(--line);margin-top:48px;padding-top:20px;color:var(--muted);font-size:.85rem}@media(max-width:540px){main{padding:44px 17px 60px}.item{align-items:flex-start;flex-direction:column;gap:9px}.action{font-size:.85rem}}
+main{max-width:880px;margin:0 auto;padding:70px 24px 90px}.eyebrow{font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;font-weight:700;color:var(--accent)}h1{font-family:Georgia,serif;font-weight:500;font-size:clamp(2.3rem,6vw,3.7rem);line-height:1.12;margin:12px 0}header p{color:var(--muted);max-width:640px;margin:0 0 48px}section{margin:34px 0}h2{font-size:1.13rem;margin:0 0 14px;letter-spacing:.015em}.list{display:grid;gap:10px}.item{background:white;border:1px solid var(--line);border-radius:12px;display:flex;align-items:center;justify-content:space-between;gap:18px;padding:18px 21px;text-decoration:none;color:inherit;box-shadow:0 2px 8px #1a315006;transition:transform .15s,border-color .15s,box-shadow .15s}.item:hover,.item:focus-visible{transform:translateY(-2px);border-color:#8ca9c7;box-shadow:0 6px 20px #1a315012;outline:none}.name{font-weight:650}.detail{display:block;font-size:.91rem;color:var(--muted);margin-top:3px}.action{white-space:nowrap;color:var(--accent);font-size:.9rem;font-weight:700}.action:after{content:''}footer{border-top:1px solid var(--line);margin-top:48px;padding-top:20px;color:var(--muted);font-size:.85rem}@media(max-width:540px){main{padding:44px 17px 60px}.item{align-items:flex-start;flex-direction:column;gap:9px}.action{font-size:.85rem}}
 
 html{scroll-behavior:smooth}section{scroll-margin-top:24px}
 .toc{position:fixed;top:95px;left:max(18px,calc((100vw - 1390px)/2));width:220px;padding:19px 14px;background:#fff;border:1px solid var(--line);border-radius:13px;box-shadow:0 3px 15px #1a31500b;z-index:10}
@@ -18,6 +18,16 @@ html{scroll-behavior:smooth}section{scroll-margin-top:24px}
 @media(max-width:1100px){.toc{position:sticky;top:0;left:auto;width:auto;max-width:880px;margin:0 auto;padding:9px 14px;border-radius:0 0 12px 12px;display:flex;align-items:center;gap:5px;overflow-x:auto;box-shadow:0 3px 12px #1a31500b}.toc-title{margin:0 10px 0 0;white-space:nowrap}.toc a{white-space:nowrap;padding:9px;font-size:.8rem}main{margin:0 auto;padding-top:36px}section{scroll-margin-top:78px}}
 @media(max-width:620px){.toc-title{display:none}.toc a{font-size:.75rem}.toc{padding:7px 8px}section{scroll-margin-top:70px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* Bandeau compact, en conservant la disposition originale des cartes */
+header{background:#17344b;color:white;border-radius:20px;padding:30px 36px;margin-bottom:38px;box-shadow:0 12px 30px #17344b16}
+header .eyebrow{color:#b9dbe8}
+header h1{color:white;font-size:clamp(2.2rem,5vw,3.15rem);margin:8px 0 12px}
+header p{color:#d5e3eb;margin:0;max-width:690px}
+.action{background:#edf3f9;padding:11px 15px;border-radius:11px;display:inline-block;align-self:center}
+.item:hover .action,.item:focus-visible .action{background:#e0ebf6}
+footer a{color:var(--accent);text-decoration:none}footer a:hover{text-decoration:underline}
+@media(max-width:540px){header{padding:26px 22px;border-radius:16px}}
 </style>
 </head>
 <body><nav class="toc" aria-label="Table des matières"><div class="toc-title">Sommaire</div>
@@ -26,32 +36,32 @@ html{scroll-behavior:smooth}section{scroll-margin-top:24px}
 <a href="#enchaînements">03 — Enchaînements</a>
 <a href="#regle-octave">04 — Règle de l’octave</a>
 </nav><main>
-<header><div class="eyebrow">Piano complémentaire</div><h1>Harmonie pratique</h1><p>Exercices interactifs pour développer la mémorisation, la maîtrise et l’automatisation des accords au clavier. Sélectionnez un exercice pour commencer.</p></header>
+<header><div class="eyebrow">Piano complémentaire</div><h1>Harmonie pratique</h1><p>Exercices interactifs pour développer la mémorisation, la maîtrise et l’automatisation des accords au clavier.</p></header>
 <section aria-labelledby="triades"><h2 id="triades">01 — Accords de trois sons</h2><div class="list">
-<a class="item" href="triades-maj-min/" target="_blank" rel="noopener noreferrer"><span><span class="name">Accords majeurs et mineurs</span><span class="detail">Les 12 triades majeures et les 12 triades mineures</span></span><span class="action">Ouvrir l’exercice</span></a>
-<a class="item" href="triades-4-types/" target="_blank" rel="noopener noreferrer"><span><span class="name">Les quatre types de triades</span><span class="detail">Majeures, mineures, diminuées et augmentées</span></span><span class="action">Ouvrir l’exercice</span></a>
+<a class="item" href="triades-maj-min/" target="_blank" rel="noopener noreferrer"><span><span class="name">Accords majeurs et mineurs</span><span class="detail">Les 12 triades majeures et les 12 triades mineures</span></span><span class="action">Ouvrir ↗</span></a>
+<a class="item" href="triades-4-types/" target="_blank" rel="noopener noreferrer"><span><span class="name">Les quatre types de triades</span><span class="detail">Majeures, mineures, diminuées et augmentées</span></span><span class="action">Ouvrir ↗</span></a>
 </div></section>
 <section aria-labelledby="septièmes"><h2 id="septièmes">02 — Accords de septième</h2><div class="list">
-<a class="item" href="/Exercices-harmonie/dominantes-v7/" target="_blank" rel="noopener noreferrer"><span><span class="name">Accords de dominante</span><span class="detail">V7 dans les 12 tonalités</span></span><span class="action">Ouvrir l’exercice</span></a>
-<a class="item" href="tetrades-3-types/" target="_blank" rel="noopener noreferrer"><span><span class="name">Trois types d’accords de septième</span><span class="detail">Maj7, min7 et 7</span></span><span class="action">Ouvrir l’exercice</span></a>
-<a class="item" href="septiemes-diminuees/" target="_blank" rel="noopener noreferrer"><span><span class="name">Septièmes diminuées et demi-diminuées</span><span class="detail">°7 et ø7</span></span><span class="action">Ouvrir l’exercice</span></a>
-<a class="item" href="tetrades-5-types/" target="_blank" rel="noopener noreferrer"><span><span class="name">Cinq accords de septième</span><span class="detail">Maj7, min7, 7, °7 et ø7</span></span><span class="action">Ouvrir l’exercice</span></a>
+<a class="item" href="/Exercices-harmonie/dominantes-v7/" target="_blank" rel="noopener noreferrer"><span><span class="name">Accords de dominante</span><span class="detail">V7 dans les 12 tonalités</span></span><span class="action">Ouvrir ↗</span></a>
+<a class="item" href="tetrades-3-types/" target="_blank" rel="noopener noreferrer"><span><span class="name">Trois types d’accords de septième</span><span class="detail">Maj7, min7 et 7</span></span><span class="action">Ouvrir ↗</span></a>
+<a class="item" href="septiemes-diminuees/" target="_blank" rel="noopener noreferrer"><span><span class="name">Septièmes diminuées et demi-diminuées</span><span class="detail">°7 et ø7</span></span><span class="action">Ouvrir ↗</span></a>
+<a class="item" href="tetrades-5-types/" target="_blank" rel="noopener noreferrer"><span><span class="name">Cinq accords de septième</span><span class="detail">Maj7, min7, 7, °7 et ø7</span></span><span class="action">Ouvrir ↗</span></a>
 </div></section>
 <section aria-labelledby="enchaînements"><h2 id="enchaînements">03 — Enchaînements harmoniques</h2><div class="list">
-<a class="item" href="cadence-majeure/" target="_blank" rel="noopener noreferrer"><span><span class="name">I – V7 – I</span><span class="detail">Dans les 12 tonalités majeures</span></span><span class="action">Ouvrir l’exercice</span></a>
-<a class="item" href="cadence-mineure/" target="_blank" rel="noopener noreferrer"><span><span class="name">i – V7 – i</span><span class="detail">Dans les 12 tonalités mineures</span></span><span class="action">Ouvrir l’exercice</span></a>
-<a class="item" href="chromatisme-majeur/" target="_blank" rel="noopener noreferrer"><span><span class="name">Triades majeures — Montée et descente chromatiques</span><span class="detail">Les 12 triades majeures, de do à do, puis en descendant</span></span><span class="action">Ouvrir l’exercice</span></a>
-<a class="item" href="chromatisme-mineur/" target="_blank" rel="noopener noreferrer"><span><span class="name">Triades mineures — Montée et descente chromatiques</span><span class="detail">Les 12 triades mineures, de do à do, puis en descendant</span></span><span class="action">Ouvrir l’exercice</span></a>
+<a class="item" href="cadence-majeure/" target="_blank" rel="noopener noreferrer"><span><span class="name">I – V7 – I</span><span class="detail">Dans les 12 tonalités majeures</span></span><span class="action">Ouvrir ↗</span></a>
+<a class="item" href="cadence-mineure/" target="_blank" rel="noopener noreferrer"><span><span class="name">i – V7 – i</span><span class="detail">Dans les 12 tonalités mineures</span></span><span class="action">Ouvrir ↗</span></a>
+<a class="item" href="chromatisme-majeur/" target="_blank" rel="noopener noreferrer"><span><span class="name">Triades majeures — Montée et descente chromatiques</span><span class="detail">Les 12 triades majeures, de do à do, puis en descendant</span></span><span class="action">Ouvrir ↗</span></a>
+<a class="item" href="chromatisme-mineur/" target="_blank" rel="noopener noreferrer"><span><span class="name">Triades mineures — Montée et descente chromatiques</span><span class="detail">Les 12 triades mineures, de do à do, puis en descendant</span></span><span class="action">Ouvrir ↗</span></a>
 </div></section>
 <section aria-labelledby="regle-octave"><h2 id="regle-octave">04 — Règle de l’octave</h2><div class="list">
-<a class="item" href="octave-majeur-etape1/" target="_blank" rel="noopener noreferrer"><span><span class="name">Majeur — Étape 1</span><span class="detail">3 premiers degrés</span></span><span class="action">Ouvrir l’exercice</span></a>
-<a class="item" href="octave-majeur-etape2/" target="_blank" rel="noopener noreferrer"><span><span class="name">Majeur — Étape 2</span><span class="detail">Demi-règle de l’octave</span></span><span class="action">Ouvrir l’exercice</span></a>
-<a class="item" href="octave-majeur-etape3/" target="_blank" rel="noopener noreferrer"><span><span class="name">Majeur — Étape 3</span><span class="detail">3 derniers degrés</span></span><span class="action">Ouvrir l’exercice</span></a>
-<a class="item" href="octave-mineur-etape1/" target="_blank" rel="noopener noreferrer"><span><span class="name">Mineur — Étape 1</span><span class="detail">3 premiers degrés</span></span><span class="action">Ouvrir l’exercice</span></a>
-<a class="item" href="octave-mineur-etape2/" target="_blank" rel="noopener noreferrer"><span><span class="name">Mineur — Étape 2</span><span class="detail">Demi-règle de l’octave</span></span><span class="action">Ouvrir l’exercice</span></a>
-<a class="item" href="octave-mineur-etape3/" target="_blank" rel="noopener noreferrer"><span><span class="name">Mineur — Étape 3</span><span class="detail">3 derniers degrés</span></span><span class="action">Ouvrir l’exercice</span></a>
+<a class="item" href="octave-majeur-etape1/" target="_blank" rel="noopener noreferrer"><span><span class="name">Majeur — Étape 1</span><span class="detail">Cadence parfaite</span></span><span class="action">Ouvrir ↗</span></a>
+<a class="item" href="octave-majeur-etape2/" target="_blank" rel="noopener noreferrer"><span><span class="name">Majeur — Étape 2</span><span class="detail">Demi-règle de l’octave</span></span><span class="action">Ouvrir ↗</span></a>
+<a class="item" href="octave-majeur-etape3/" target="_blank" rel="noopener noreferrer"><span><span class="name">Majeur — Étape 3</span><span class="detail">Règle de l’octave complète</span></span><span class="action">Ouvrir ↗</span></a>
+<a class="item" href="octave-mineur-etape1/" target="_blank" rel="noopener noreferrer"><span><span class="name">Mineur — Étape 1</span><span class="detail">Cadence parfaite</span></span><span class="action">Ouvrir ↗</span></a>
+<a class="item" href="octave-mineur-etape2/" target="_blank" rel="noopener noreferrer"><span><span class="name">Mineur — Étape 2</span><span class="detail">Demi-règle de l’octave</span></span><span class="action">Ouvrir ↗</span></a>
+<a class="item" href="octave-mineur-etape3/" target="_blank" rel="noopener noreferrer"><span><span class="name">Mineur — Étape 3</span><span class="detail">Règle de l’octave complète</span></span><span class="action">Ouvrir ↗</span></a>
 </div></section>
-<footer>Harmonie pratique · Piano complémentaire</footer>
+<footer>Piano complémentaire · Harmonie pratique · <a href="mailto:julien.painot@hemu-cl.ch">julien.painot@hemu-cl.ch</a></footer>
 </main><script>
 const navLinks=[...document.querySelectorAll('.toc a')];
 const sections=navLinks.map(a=>document.getElementById(decodeURIComponent(a.hash.slice(1))));
