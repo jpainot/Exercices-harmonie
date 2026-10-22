@@ -7,6 +7,33 @@
 :root{font-family:system-ui,-apple-system,sans-serif;color:#172033;background:#f5f6f8}*{box-sizing:border-box}body{margin:0;padding:24px}main{max-width:700px;margin:35px auto;text-align:center}h1{font-size:1.6rem;margin-bottom:8px}p{color:#536071}.card{background:white;border:1px solid #dce1e8;border-radius:20px;margin:26px 0 20px;padding:65px 15px;box-shadow:0 5px 24px #1720330a}.chord{font-size:clamp(3.2rem,12vw,6rem);font-weight:750;min-height:1.3em}.count{font-size:1rem;color:#667085}.controls{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap}button,select{font:inherit;border-radius:10px;padding:12px 18px;border:1px solid #aeb7c5;background:white;color:#172033;cursor:pointer;min-height:46px}button.primary{background:#172033;color:white;border-color:#172033}button:disabled{opacity:.5;cursor:not-allowed}label{display:flex;align-items:center;gap:8px}small{display:block;color:#667085;margin-top:22px}.progress{height:6px;background:#e7ebf1;border-radius:8px;overflow:hidden;margin-top:25px}.bar{height:100%;background:#3565a5;width:0%;transition:width .1s linear}
 
 .menu-row{text-align:left;margin:0 0 14px}.menu-link{display:inline-block;text-decoration:none;color:#2463b7;font-weight:650;padding:8px 12px;border-radius:9px;border:1px solid #dce3e9;background:white}.menu-link:hover,.menu-link:focus-visible{background:#edf3f9;outline:2px solid #8ca9c7;outline-offset:2px}
+
+/* Harmonie pratique — identité visuelle commune */
+:root{--hp-ink:#192c40;--hp-blue:#17344b;--hp-accent:#285c80;--hp-muted:#607286;--hp-border:#dbe5ef;--hp-bg:#f3f6fa}
+html{background:var(--hp-bg);scroll-behavior:smooth}
+body{background:var(--hp-bg)!important;color:var(--hp-ink)!important;box-sizing:border-box;min-height:100vh}
+body *{box-sizing:border-box}
+main,.wrap{max-width:1050px}
+h1{color:var(--hp-ink)!important;letter-spacing:-.025em;line-height:1.2}
+.card{border:1px solid var(--hp-border)!important;border-radius:20px!important;box-shadow:0 8px 28px #18354b0d!important}
+button,.menu-link{transition:background .15s,transform .15s,box-shadow .15s}
+button:not(:disabled):hover{transform:translateY(-1px)}
+button:focus-visible,.menu-link:focus-visible{outline:3px solid #7fb0d1!important;outline-offset:3px}
+button.primary,button:not(.secondary):not(.key):not(#hpFullscreen):not(#hpExitFullscreen){background:var(--hp-blue);color:white;border-color:var(--hp-blue)}
+button.secondary,.menu-link{background:#e9f0f7!important;color:var(--hp-accent)!important;border-color:var(--hp-border)!important}
+.menu-link{font-weight:700;text-decoration:none}
+.chord,#display,.note{color:var(--hp-ink);letter-spacing:-.03em}
+#hpFullscreen{position:fixed;right:20px;top:18px;z-index:1000;background:#e9f0f7;color:var(--hp-blue);border:1px solid var(--hp-border);border-radius:10px;padding:9px 14px;font:600 14px system-ui,sans-serif;cursor:pointer;box-shadow:0 2px 10px #172b4d0d}
+#hpExitFullscreen{display:none;position:fixed;right:20px;top:18px;z-index:1001;background:#e9f0f7;color:var(--hp-blue);border:1px solid var(--hp-border);border-radius:10px;padding:9px 14px;font:600 14px system-ui,sans-serif;cursor:pointer}
+html:fullscreen{overflow:auto;background:var(--hp-bg)}
+html:fullscreen body{max-width:none!important;width:100%;margin:0 auto!important;padding:66px 24px 40px!important;overflow:auto}
+html:fullscreen #hpFullscreen{display:none}
+html:fullscreen #hpExitFullscreen{display:block}
+html:fullscreen .chord,html:fullscreen #display,html:fullscreen .note{font-size:clamp(4rem,12vw,9rem)!important}
+html:fullscreen .card{padding-top:clamp(24px,5vh,70px);padding-bottom:clamp(24px,5vh,70px)}
+html:fullscreen .menu-row{display:none}
+@media(max-width:600px){#hpFullscreen{position:static;display:block;margin:8px 0 8px auto}html:fullscreen body{padding:55px 12px 20px!important}}
+@media(prefers-reduced-motion:reduce){button,.menu-link{transition:none}}
 </style>
 </head>
 <body><main><div class="menu-row"><a class="menu-link" href="../">← Menu</a></div>
@@ -102,4 +129,24 @@
   });
   speed.addEventListener('change',()=>{if(phase==='countdown'&&!running)remaining=duration();});
 })();
-</script></body></html>
+</script>
+<script>
+/* Commandes d'affichage indépendantes de la logique musicale */
+(()=>{
+ const full=document.createElement('button');full.type='button';full.id='hpFullscreen';full.textContent='⛶ Plein écran';full.setAttribute('aria-label','Passer en plein écran');
+ const exit=document.createElement('button');exit.type='button';exit.id='hpExitFullscreen';exit.textContent='✕ Quitter le plein écran';
+ document.body.append(full,exit);
+ full.addEventListener('click',()=>document.documentElement.requestFullscreen?.().catch(()=>{}));
+ exit.addEventListener('click',()=>document.exitFullscreen?.());
+ const get=id=>document.getElementById(id);
+ document.addEventListener('keydown',e=>{
+  if(e.altKey||e.ctrlKey||e.metaKey||e.repeat)return;
+  const target=e.target;
+  if(target?.closest?.('input,select,textarea,[contenteditable="true"],button,a'))return;
+  if(e.key==='Enter'){const b=get('start');if(b&&!b.disabled&&!b.hidden&&getComputedStyle(b).display!=='none'){e.preventDefault();b.click()}}
+  if(e.code==='Space'){const b=get('pause');if(b&&!b.disabled&&!b.hidden&&getComputedStyle(b).display!=='none'){e.preventDefault();b.click()}}
+  if(e.key.toLowerCase()==='r'){const b=get('reset')||get('restart');if(b&&!b.disabled){e.preventDefault();b.click()}}
+ });
+})();
+</script>
+</body></html>
