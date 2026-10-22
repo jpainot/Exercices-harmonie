@@ -5,9 +5,11 @@
 <title>Accords de dominante (V7) — entraînement</title>
 <style>
 :root{font-family:system-ui,-apple-system,sans-serif;color:#172033;background:#f5f6f8}*{box-sizing:border-box}body{margin:0;padding:24px}main{max-width:700px;margin:35px auto;text-align:center}h1{font-size:1.6rem;margin-bottom:8px}p{color:#536071}.card{background:white;border:1px solid #dce1e8;border-radius:20px;margin:26px 0 20px;padding:65px 15px;box-shadow:0 5px 24px #1720330a}.chord{font-size:clamp(3.2rem,12vw,6rem);font-weight:750;min-height:1.3em}.count{font-size:1rem;color:#667085}.controls{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap}button,select{font:inherit;border-radius:10px;padding:12px 18px;border:1px solid #aeb7c5;background:white;color:#172033;cursor:pointer;min-height:46px}button.primary{background:#172033;color:white;border-color:#172033}button:disabled{opacity:.5;cursor:not-allowed}label{display:flex;align-items:center;gap:8px}small{display:block;color:#667085;margin-top:22px}.progress{height:6px;background:#e7ebf1;border-radius:8px;overflow:hidden;margin-top:25px}.bar{height:100%;background:#3565a5;width:0%;transition:width .1s linear}
+
+.menu-row{text-align:left;margin:0 0 14px}.menu-link{display:inline-block;text-decoration:none;color:#2463b7;font-weight:650;padding:8px 12px;border-radius:9px;border:1px solid #dce3e9;background:white}.menu-link:hover,.menu-link:focus-visible{background:#edf3f9;outline:2px solid #8ca9c7;outline-offset:2px}
 </style>
 </head>
-<body><main>
+<body><main><div class="menu-row"><a class="menu-link" href="../">← Menu</a></div>
 <h1>Accords de dominante (V7)</h1><p>Trouve et joue l’accord avant d’entendre l’accord correspondant.</p>
 <section class="card" aria-live="polite"><div class="chord" id="chord">Prêt ?</div><div class="count" id="count">12 accords par série</div><div class="progress"><div class="bar" id="bar"></div></div></section>
 <div class="controls"><label for="speed">Temps par accord <select id="speed"><option value="1">1 s</option><option value="2">2 s</option><option value="3">3 s</option><option value="4">4 s</option><option value="6" selected>6 s</option><option value="8">8 s</option><option value="10">10 s</option><option value="12">12 s</option></select></label><button class="primary" id="start">Démarrer</button><button id="pause" disabled>Pause</button><button id="reset">Recommencer</button></div>
