@@ -27,6 +27,14 @@ html:fullscreen .card{padding-top:clamp(24px,5vh,70px);padding-bottom:clamp(24px
 html:fullscreen .menu-row{display:none}
 @media(max-width:600px){#hpFullscreen{position:static;display:block;margin:8px 0 8px auto}html:fullscreen body{padding:55px 12px 20px!important}}
 @media(prefers-reduced-motion:reduce){button,.menu-link{transition:none}}
+
+/* Mode immersif compatible avec Safari sur iPhone */
+html.hp-mobile-fullscreen{overflow:hidden!important}
+html.hp-mobile-fullscreen body{position:fixed!important;inset:0!important;box-sizing:border-box!important;width:100%!important;height:100dvh!important;max-width:none!important;margin:0!important;padding:calc(env(safe-area-inset-top) + 60px) 14px calc(env(safe-area-inset-bottom) + 20px)!important;overflow-y:auto!important;background:var(--hp-bg)!important}
+html.hp-mobile-fullscreen #hpFullscreen{display:none!important}
+html.hp-mobile-fullscreen #hpExitFullscreen{display:block!important;position:fixed!important;top:calc(env(safe-area-inset-top) + 12px)!important;right:14px!important}
+html.hp-mobile-fullscreen .menu-row{display:none!important}
+html.hp-mobile-fullscreen .chord,html.hp-mobile-fullscreen #display,html.hp-mobile-fullscreen .note{font-size:clamp(4rem,12vw,9rem)!important}
 </style></head><body><div class="menu-row"><a class="menu-link" href="../">← Menu</a></div><h1>Enchaînement i – V7 – i</h1><section id="intro"><p><strong>Effectuer ceci dans la tonalité demandée :</strong></p><img id="model" src="modele.png" alt="Modèle musical de l'enchaînement i – V7 – i avec mouvement des voix par ton et demi-ton"></section><div id="display" aria-live="polite"></div><p id="status">12 tonalités mineures · ordre aléatoire sans répétition</p><div id="bar"><div id="fill"></div></div><label>Durée (secondes) <input id="seconds" type="number" min="2" max="30" value="6"></label><div><button class="primary" id="start">Démarrer</button><button id="pause" disabled>Pause</button><button id="reset">Recommencer</button></div><script>const notes=['Do mineur','Do♯ mineur','Ré mineur','Mi♭ mineur','Mi mineur','Fa mineur','Fa♯ mineur','Sol mineur','Sol♯ mineur','La mineur','Si♭ mineur','Si mineur'];let deck=[],index=-1,running=false,elapsed=0,last=0,frame=0;const display=document.querySelector('#display'),status=document.querySelector('#status'),fill=document.querySelector('#fill'),intro=document.querySelector('#intro'),start=document.querySelector('#start'),pause=document.querySelector('#pause'),seconds=document.querySelector('#seconds');function shuffle(){deck=[...notes];for(let i=deck.length-1;i>0;i--){let j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]]}}function duration(){return Math.max(2,Math.min(30,Number(seconds.value)||6))*1000}function next(){index++;elapsed=0;fill.style.width='0%';if(index>=deck.length){running=false;display.textContent='Terminé !';status.textContent='12 tonalités parcourues';start.disabled=false;pause.disabled=true;return}display.textContent=deck[index];status.textContent=`Tonalité ${index+1} / 12`}function tick(t){if(!running)return;if(!last)last=t;elapsed+=t-last;last=t;const d=duration();if(elapsed>=d){next();if(!running)return}fill.style.width=Math.min(100,elapsed/d*100)+'%';frame=requestAnimationFrame(tick)}function play(){if(index<0||index>=deck.length){shuffle();index=-1;next()}intro.hidden=true;running=true;last=0;start.disabled=true;pause.disabled=false;pause.textContent='Pause';frame=requestAnimationFrame(tick)}start.addEventListener('click',play);pause.addEventListener('click',()=>{if(running){running=false;cancelAnimationFrame(frame);pause.textContent='Reprendre'}else{running=true;last=0;pause.textContent='Pause';frame=requestAnimationFrame(tick)}});document.querySelector('#reset').addEventListener('click',()=>{running=false;cancelAnimationFrame(frame);index=-1;elapsed=0;last=0;intro.hidden=false;display.textContent='';status.textContent='12 tonalités mineures · ordre aléatoire sans répétition';fill.style.width='0%';start.disabled=false;pause.disabled=true;pause.textContent='Pause'});</script>
 <script>
 /* Commandes d'affichage indépendantes de la logique musicale */
@@ -34,8 +42,13 @@ html:fullscreen .menu-row{display:none}
  const full=document.createElement('button');full.type='button';full.id='hpFullscreen';full.textContent='⛶ Plein écran';full.setAttribute('aria-label','Passer en plein écran');
  const exit=document.createElement('button');exit.type='button';exit.id='hpExitFullscreen';exit.textContent='✕ Quitter le plein écran';
  document.body.append(full,exit);
- full.addEventListener('click',()=>document.documentElement.requestFullscreen?.().catch(()=>{}));
- exit.addEventListener('click',()=>document.exitFullscreen?.());
+ const toggleMobile=on=>{document.documentElement.classList.toggle('hp-mobile-fullscreen',on);};
+ full.addEventListener('click',async()=>{
+  if(document.documentElement.requestFullscreen){try{await document.documentElement.requestFullscreen();return}catch(e){}}
+  toggleMobile(true);
+ });
+ exit.addEventListener('click',()=>{if(document.fullscreenElement)document.exitFullscreen();else toggleMobile(false)});
+ document.addEventListener('fullscreenchange',()=>{if(document.fullscreenElement)toggleMobile(false)});
  const get=id=>document.getElementById(id);
  document.addEventListener('keydown',e=>{
   if(e.altKey||e.ctrlKey||e.metaKey||e.repeat)return;

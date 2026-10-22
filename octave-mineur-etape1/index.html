@@ -29,6 +29,14 @@ html:fullscreen .card{padding-top:clamp(24px,5vh,70px);padding-bottom:clamp(24px
 html:fullscreen .menu-row{display:none}
 @media(max-width:600px){#hpFullscreen{position:static;display:block;margin:8px 0 8px auto}html:fullscreen body{padding:55px 12px 20px!important}}
 @media(prefers-reduced-motion:reduce){button,.menu-link{transition:none}}
+
+/* Mode immersif compatible avec Safari sur iPhone */
+html.hp-mobile-fullscreen{overflow:hidden!important}
+html.hp-mobile-fullscreen body{position:fixed!important;inset:0!important;box-sizing:border-box!important;width:100%!important;height:100dvh!important;max-width:none!important;margin:0!important;padding:calc(env(safe-area-inset-top) + 60px) 14px calc(env(safe-area-inset-bottom) + 20px)!important;overflow-y:auto!important;background:var(--hp-bg)!important}
+html.hp-mobile-fullscreen #hpFullscreen{display:none!important}
+html.hp-mobile-fullscreen #hpExitFullscreen{display:block!important;position:fixed!important;top:calc(env(safe-area-inset-top) + 12px)!important;right:14px!important}
+html.hp-mobile-fullscreen .menu-row{display:none!important}
+html.hp-mobile-fullscreen .chord,html.hp-mobile-fullscreen #display,html.hp-mobile-fullscreen .note{font-size:clamp(4rem,12vw,9rem)!important}
 </style></head><body><main><div class="menu-row"><a class="menu-link" href="../">← Menu</a></div><header><h1>Étape 1 : Règle de l’octave en mineur — 3 premiers degrés</h1><p>Quatre tonalités · La, Mi, Si, Ré</p></header><section class="card" id="intro"><div class="intro"><img class="score" src="images/La.png" alt="Règle de l’octave : trois premiers degrés en La"><p class="instructions">Jouez les trois premiers degrés de la règle de l’octave en mineur dans les quatre tonalités — <strong>La, Mi, Si et Ré</strong> — en suivant l’accompagnement audio.</p><p class="hint">Les tonalités s’enchaînent automatiquement. Vous pouvez aussi choisir directement une tonalité.</p><button id="start">Démarrer</button></div></section><section class="card hidden" id="exercise"><div class="topline"><span class="tag" id="step">1 / 4</span><span class="tag" id="tonality">Do majeur</span></div><div class="keys" id="keys"></div><img id="sheet" class="score" src="images/La.png" alt="Partition"><p class="hint" id="status" role="status">Lecture en cours</p><div class="bar" aria-label="Progression de l’enregistrement"><div id="progress"></div></div><div class="controls"><button id="pause" class="secondary">Pause</button><button id="restart" class="secondary">Recommencer</button></div><p class="hint">Passage automatique à la suivante à la fin de l’audio. Vous pouvez aussi cliquer sur La, Mi, Si ou Ré pour choisir directement une tonalité.</p><div id="error" class="warning hidden" role="alert"></div></section><audio id="recording" preload="auto"></audio></main><script>
 const data=[{name:'La',img:'images/La.png',audio:'audio/La.mp3'},{name:'Mi',img:'images/Mi.png',audio:'audio/Mi.mp3'},{name:'Si',img:'images/Si.png',audio:'audio/Si.mp3'},{name:'Ré',img:'images/Re.png',audio:'audio/Re.mp3'}];
 const $=id=>document.getElementById(id),player=$('recording');let idx=0,done=false;
@@ -48,8 +56,13 @@ $('restart').addEventListener('click',()=>{player.pause();idx=0;done=false;playC
  const full=document.createElement('button');full.type='button';full.id='hpFullscreen';full.textContent='⛶ Plein écran';full.setAttribute('aria-label','Passer en plein écran');
  const exit=document.createElement('button');exit.type='button';exit.id='hpExitFullscreen';exit.textContent='✕ Quitter le plein écran';
  document.body.append(full,exit);
- full.addEventListener('click',()=>document.documentElement.requestFullscreen?.().catch(()=>{}));
- exit.addEventListener('click',()=>document.exitFullscreen?.());
+ const toggleMobile=on=>{document.documentElement.classList.toggle('hp-mobile-fullscreen',on);};
+ full.addEventListener('click',async()=>{
+  if(document.documentElement.requestFullscreen){try{await document.documentElement.requestFullscreen();return}catch(e){}}
+  toggleMobile(true);
+ });
+ exit.addEventListener('click',()=>{if(document.fullscreenElement)document.exitFullscreen();else toggleMobile(false)});
+ document.addEventListener('fullscreenchange',()=>{if(document.fullscreenElement)toggleMobile(false)});
  const get=id=>document.getElementById(id);
  document.addEventListener('keydown',e=>{
   if(e.altKey||e.ctrlKey||e.metaKey||e.repeat)return;

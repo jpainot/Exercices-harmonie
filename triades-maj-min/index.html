@@ -16,6 +16,14 @@ body{padding:22px 18px}main{max-width:880px;margin:22px auto}h1{font-family:Geor
 .count{font-size:1.05rem;margin-top:18px;color:var(--muted)}.progress{height:9px;margin-top:36px;background:#e7edf3}.bar{background:#356ba8}
 .controls{gap:10px}button,select{border-color:#cdd7e3;border-radius:11px;transition:background .15s,transform .15s,box-shadow .15s}button:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 3px 12px #1a315015}button.primary{background:var(--accent);border-color:var(--accent)}button:focus-visible,select:focus-visible{outline:3px solid #91b6e2;outline-offset:2px}
 small{max-width:680px;margin:28px auto 0;line-height:1.6}.shortcut-help{font-size:.82rem;color:var(--muted);margin:15px 0 0}.fullscreen-button{background:white}.card:fullscreen{width:100vw;height:100vh;min-height:100vh;margin:0;padding:7vh 6vw;border:0;border-radius:0;background:var(--bg);box-shadow:none;display:flex;justify-content:center}.card:fullscreen .chord{font-size:clamp(6rem,17vw,15rem)}.card:fullscreen .count{font-size:clamp(1.1rem,2vw,2rem)}.card:fullscreen .progress{width:min(850px,90%);margin:6vh auto 0;height:13px}.fullscreen-action{display:none}.card:fullscreen .fullscreen-action{display:inline-block;margin:28px auto 0;min-width:180px}.card:fullscreen .fullscreen-action[hidden]{display:none}.fullscreen-exit{display:none;position:absolute;right:22px;top:20px;background:white}.card:fullscreen .fullscreen-exit{display:block}@media(max-width:580px){main{margin:10px auto}.card{min-height:300px;padding:65px 14px 32px}.chord{font-size:clamp(3.8rem,14vw,6rem)}.controls label{width:100%;justify-content:center;margin-bottom:5px}}
+
+/* Affichage immersif de remplacement pour Safari iPhone */
+body.hp-mobile-fullscreen{overflow:hidden!important}
+body.hp-mobile-fullscreen #exerciseCard{position:fixed!important;inset:0!important;z-index:20000!important;width:100vw!important;height:100dvh!important;min-height:0!important;margin:0!important;padding:calc(env(safe-area-inset-top) + 54px) 5vw calc(env(safe-area-inset-bottom) + 20px)!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:var(--bg)!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;overflow:auto!important}
+body.hp-mobile-fullscreen #exerciseCard .chord{font-size:clamp(4rem,16vw,10rem)!important}
+body.hp-mobile-fullscreen #exerciseCard .fullscreen-action:not([hidden]){display:inline-block!important;margin:22px auto 0!important}
+body.hp-mobile-fullscreen #exerciseCard .fullscreen-exit{display:block!important;position:absolute!important;right:16px!important;top:calc(env(safe-area-inset-top) + 10px)!important}
+body.hp-mobile-fullscreen #exerciseCard .progress{width:90%!important}
 </style>
 </head>
 <body><main><div class="menu-row"><a class="menu-link" href="../">← Menu</a></div>
@@ -120,13 +128,16 @@ small{max-width:680px;margin:28px auto 0;line-height:1.6}.shortcut-help{font-siz
   new MutationObserver(syncFullscreenControls).observe(start,{attributes:true,childList:true,characterData:true,subtree:true});
   new MutationObserver(syncFullscreenControls).observe(pause,{attributes:true,childList:true,characterData:true,subtree:true});
   syncFullscreenControls();
+  function syncFullscreenLabel(){fullBtn.textContent=(document.fullscreenElement||document.body.classList.contains('hp-mobile-fullscreen'))?'⛶ Quitter le plein écran':'⛶ Plein écran'}
   async function toggleFullscreen(){
-    try{if(document.fullscreenElement){await document.exitFullscreen();}else if(card.requestFullscreen){await card.requestFullscreen();}}
-    catch(e){console.warn('Plein écran indisponible',e)}
+    if(document.body.classList.contains('hp-mobile-fullscreen')){document.body.classList.remove('hp-mobile-fullscreen');syncFullscreenLabel();return}
+    if(document.fullscreenElement){await document.exitFullscreen();syncFullscreenLabel();return}
+    if(card.requestFullscreen){try{await card.requestFullscreen();syncFullscreenLabel();return}catch(e){}}
+    document.body.classList.add('hp-mobile-fullscreen');syncFullscreenLabel();
   }
   fullBtn.addEventListener('click',toggleFullscreen);
-  exitFull.addEventListener('click',()=>{if(document.fullscreenElement)document.exitFullscreen()});
-  document.addEventListener('fullscreenchange',()=>{fullBtn.textContent=document.fullscreenElement?'⛶ Quitter le plein écran':'⛶ Plein écran'});
+  exitFull.addEventListener('click',()=>{if(document.body.classList.contains('hp-mobile-fullscreen')){document.body.classList.remove('hp-mobile-fullscreen');syncFullscreenLabel()}else if(document.fullscreenElement)document.exitFullscreen()});
+  document.addEventListener('fullscreenchange',syncFullscreenLabel);
   document.addEventListener('keydown',e=>{
     if(e.altKey||e.ctrlKey||e.metaKey||e.repeat)return;
     if(['SELECT','INPUT','TEXTAREA'].includes(document.activeElement?.tagName))return;

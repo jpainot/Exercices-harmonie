@@ -34,6 +34,14 @@ html:fullscreen .card{padding-top:clamp(24px,5vh,70px);padding-bottom:clamp(24px
 html:fullscreen .menu-row{display:none}
 @media(max-width:600px){#hpFullscreen{position:static;display:block;margin:8px 0 8px auto}html:fullscreen body{padding:55px 12px 20px!important}}
 @media(prefers-reduced-motion:reduce){button,.menu-link{transition:none}}
+
+/* Mode immersif compatible avec Safari sur iPhone */
+html.hp-mobile-fullscreen{overflow:hidden!important}
+html.hp-mobile-fullscreen body{position:fixed!important;inset:0!important;box-sizing:border-box!important;width:100%!important;height:100dvh!important;max-width:none!important;margin:0!important;padding:calc(env(safe-area-inset-top) + 60px) 14px calc(env(safe-area-inset-bottom) + 20px)!important;overflow-y:auto!important;background:var(--hp-bg)!important}
+html.hp-mobile-fullscreen #hpFullscreen{display:none!important}
+html.hp-mobile-fullscreen #hpExitFullscreen{display:block!important;position:fixed!important;top:calc(env(safe-area-inset-top) + 12px)!important;right:14px!important}
+html.hp-mobile-fullscreen .menu-row{display:none!important}
+html.hp-mobile-fullscreen .chord,html.hp-mobile-fullscreen #display,html.hp-mobile-fullscreen .note{font-size:clamp(4rem,12vw,9rem)!important}
 </style>
 </head>
 <body><main><div class="menu-row"><a class="menu-link" href="../">← Menu</a></div>
@@ -135,8 +143,13 @@ html:fullscreen .menu-row{display:none}
  const full=document.createElement('button');full.type='button';full.id='hpFullscreen';full.textContent='⛶ Plein écran';full.setAttribute('aria-label','Passer en plein écran');
  const exit=document.createElement('button');exit.type='button';exit.id='hpExitFullscreen';exit.textContent='✕ Quitter le plein écran';
  document.body.append(full,exit);
- full.addEventListener('click',()=>document.documentElement.requestFullscreen?.().catch(()=>{}));
- exit.addEventListener('click',()=>document.exitFullscreen?.());
+ const toggleMobile=on=>{document.documentElement.classList.toggle('hp-mobile-fullscreen',on);};
+ full.addEventListener('click',async()=>{
+  if(document.documentElement.requestFullscreen){try{await document.documentElement.requestFullscreen();return}catch(e){}}
+  toggleMobile(true);
+ });
+ exit.addEventListener('click',()=>{if(document.fullscreenElement)document.exitFullscreen();else toggleMobile(false)});
+ document.addEventListener('fullscreenchange',()=>{if(document.fullscreenElement)toggleMobile(false)});
  const get=id=>document.getElementById(id);
  document.addEventListener('keydown',e=>{
   if(e.altKey||e.ctrlKey||e.metaKey||e.repeat)return;
