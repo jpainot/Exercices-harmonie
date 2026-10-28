@@ -27,20 +27,20 @@ body.hp-mobile-fullscreen #exerciseCard .progress{width:90%!important}
 </style>
 </head>
 <body><main><div class="menu-row"><a class="menu-link" href="../">← Menu</a></div>
-<h1>Quintes justes</h1><p>Joue la quinte juste indiquée, puis écoute les deux notes de l’intervalle.</p>
+<h1>Quintes justes</h1><p>Joue une quinte juste depuis la note indiquée</p>
 <section class="card" id="exerciseCard" aria-live="polite"><button type="button" id="exitFullscreen" class="fullscreen-exit" aria-label="Quitter le plein écran">✕ Quitter le plein écran</button><div class="chord" id="chord">Prêt ?</div><div class="count" id="count">12 quintes par série</div><div class="progress"><div class="bar" id="bar"></div></div><button type="button" class="primary fullscreen-action" id="fullscreenStart">Démarrer</button><button type="button" class="fullscreen-action" id="fullscreenPause" hidden>Pause</button></section>
 <div class="controls"><label for="speed">Temps par accord <select id="speed"><option value="1">1 s</option><option value="2">2 s</option><option value="3">3 s</option><option value="4">4 s</option><option value="6" selected>6 s</option><option value="8">8 s</option><option value="10">10 s</option><option value="12">12 s</option></select></label><button class="primary" id="start">Démarrer</button><button id="pause" disabled>Pause</button><button id="reset">Recommencer</button><button type="button" id="fullscreen" class="fullscreen-button">⛶ Plein écran</button></div>
 <div class="shortcut-help">Raccourcis : Entrée = démarrer · Espace = pause/reprendre · R = recommencer · Échap = quitter le plein écran</div>
-<small>Les 12 quintes justes apparaissent dans un ordre aléatoire, une fois chacune. À la fin du décompte, les deux notes retentissent successivement, puis ensemble.</small>
+<small>Les 12 quintes justes apparaissent dans un ordre aléatoire, une fois chacune. À la fin du décompte, les deux notes retentissent simultanément.</small>
 </main><script>
 (()=>{
   const roots=['Do','Do♯','Ré','Mi♭','Mi','Fa','Fa♯','Sol','La♭','La','Si♭','Si'];
-  const all=roots.map(n=>n+' — quinte juste');
+  const all=[...roots];
   const $=id=>document.getElementById(id);
   const chord=$('chord'),count=$('count'),bar=$('bar'),speed=$('speed');
   const start=$('start'),pause=$('pause'),reset=$('reset');
   const pitch={'Do':0,'Do♯':1,'Ré':2,'Mi♭':3,'Mi':4,'Fa':5,'Fa♯':6,'Sol':7,'La♭':8,'La':9,'Si♭':10,'Si':11};
-  const soundLength=2500; // 2,5 s avant la triade suivante ; extinction du son à 2,5 s
+  const soundLength=2500; // 2,5 s avant la quinte suivante ; extinction du son à 2,5 s
   let deck=[],idx=-1,remaining=0,last=0,timer=null,running=false,phase='idle';
   let audioCtx=null,voices=[];
   const duration=()=>Number(speed.value)*1000;
@@ -49,10 +49,10 @@ body.hp-mobile-fullscreen #exerciseCard .progress{width:90%!important}
   function silence(){for(const v of voices){try{v.stop()}catch(e){}}voices=[];}
   function playChord(){
     const ctx=context();silence();
-    const root=deck[idx].replace(' — quinte juste','');
+    const root=deck[idx];
     const midi=60+pitch[root];
     const t=ctx.currentTime;
-    // Deux notes de la quinte juste : fondamentale, quinte, puis les deux ensemble.
+    // Deux notes de la quinte juste jouées simultanément.
     // Oscillateurs harmoniques et enveloppes brèves pour un son de piano approché.
     function note(semitones,offset,length,volume){
       const f=440*Math.pow(2,(midi+semitones-69)/12);
@@ -67,8 +67,7 @@ body.hp-mobile-fullscreen #exerciseCard .progress{width:90%!important}
         osc.start(begin);osc.stop(end+.01);voices.push(osc);
       }
     }
-    note(0,0,.55,1);note(7,.55,.55,1);
-    note(0,1.18,1.25,.8);note(7,1.18,1.25,.8);
+    note(0,0,2.4,1);note(7,0,2.4,1);
   }
   function display(){chord.textContent=deck[idx];count.textContent=`Quinte ${idx+1} sur 12`;phase='countdown';remaining=duration();bar.style.width='0%';}
   function stopClock(){running=false;clearInterval(timer);timer=null;pause.disabled=true;start.disabled=false;speed.disabled=false;}
