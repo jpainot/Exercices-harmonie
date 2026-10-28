@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Quintes justes — entraînement</title>
+<style>
+:root{font-family:system-ui,-apple-system,sans-serif;color:#172033;background:#f5f6f8}*{box-sizing:border-box}body{margin:0;padding:24px}main{max-width:700px;margin:35px auto;text-align:center}h1{font-size:1.6rem;margin-bottom:8px}p{color:#536071}.card{background:white;border:1px solid #dce1e8;border-radius:20px;margin:26px 0 20px;padding:65px 15px;box-shadow:0 5px 24px #1720330a}.chord{font-size:clamp(3.2rem,12vw,6rem);font-weight:750;min-height:1.3em}.count{font-size:1rem;color:#667085}.controls{display:flex;justify-content:center;align-items:center;gap:12px;flex-wrap:wrap}button,select{font:inherit;border-radius:10px;padding:12px 18px;border:1px solid #aeb7c5;background:white;color:#172033;cursor:pointer;min-height:46px}button.primary{background:#172033;color:white;border-color:#172033}button:disabled{opacity:.5;cursor:not-allowed}label{display:flex;align-items:center;gap:8px}small{display:block;color:#667085;margin-top:22px}.progress{height:6px;background:#e7ebf1;border-radius:8px;overflow:hidden;margin-top:25px}.bar{height:100%;background:#3565a5;width:0%;transition:width .1s linear}
+
+.menu-row{text-align:left;margin:0 0 14px}.menu-link{display:inline-block;text-decoration:none;color:#2463b7;font-weight:650;padding:8px 12px;border-radius:9px;border:1px solid #dce3e9;background:white}.menu-link:hover,.menu-link:focus-visible{background:#edf3f9;outline:2px solid #8ca9c7;outline-offset:2px}
+
+/* Interface harmonisée */
+:root{--ink:#202c3c;--accent:#234b76;--muted:#617083;--line:#e3e8ef;--bg:#f6f8fb;color:var(--ink);background:var(--bg)}
+body{padding:22px 18px}main{max-width:880px;margin:22px auto}h1{font-family:Georgia,serif;font-weight:500;font-size:clamp(1.9rem,4vw,2.7rem);margin:14px 0 8px}main>p{margin:0 auto;max-width:600px;line-height:1.6}.menu-row{margin-bottom:24px}.menu-link{color:var(--accent);border-color:var(--line)}
+.card{border:1px solid var(--line);border-radius:22px;margin:30px 0 22px;padding:clamp(70px,11vh,130px) 22px 38px;box-shadow:0 8px 35px #1a31500b;min-height:340px;display:flex;flex-direction:column;justify-content:center}
+.chord{font-size:clamp(4.5rem,13vw,8rem);line-height:1.18;font-weight:700;letter-spacing:-.035em;overflow-wrap:anywhere}
+.count{font-size:1.05rem;margin-top:18px;color:var(--muted)}.progress{height:9px;margin-top:36px;background:#e7edf3}.bar{background:#356ba8}
+.controls{gap:10px}button,select{border-color:#cdd7e3;border-radius:11px;transition:background .15s,transform .15s,box-shadow .15s}button:hover:not(:disabled){transform:translateY(-1px);box-shadow:0 3px 12px #1a315015}button.primary{background:var(--accent);border-color:var(--accent)}button:focus-visible,select:focus-visible{outline:3px solid #91b6e2;outline-offset:2px}
+small{max-width:680px;margin:28px auto 0;line-height:1.6}.shortcut-help{font-size:.82rem;color:var(--muted);margin:15px 0 0}.fullscreen-button{background:white}.card:fullscreen{width:100vw;height:100vh;min-height:100vh;margin:0;padding:7vh 6vw;border:0;border-radius:0;background:var(--bg);box-shadow:none;display:flex;justify-content:center}.card:fullscreen .chord{font-size:clamp(6rem,17vw,15rem)}.card:fullscreen .count{font-size:clamp(1.1rem,2vw,2rem)}.card:fullscreen .progress{width:min(850px,90%);margin:6vh auto 0;height:13px}.fullscreen-action{display:none}.card:fullscreen .fullscreen-action{display:inline-block;margin:28px auto 0;min-width:180px}.card:fullscreen .fullscreen-action[hidden]{display:none}.fullscreen-exit{display:none;position:absolute;right:22px;top:20px;background:white}.card:fullscreen .fullscreen-exit{display:block}@media(max-width:580px){main{margin:10px auto}.card{min-height:300px;padding:65px 14px 32px}.chord{font-size:clamp(3.8rem,14vw,6rem)}.controls label{width:100%;justify-content:center;margin-bottom:5px}}
+
+/* Affichage immersif de remplacement pour Safari iPhone */
+body.hp-mobile-fullscreen{overflow:hidden!important}
+body.hp-mobile-fullscreen #exerciseCard{position:fixed!important;inset:0!important;z-index:20000!important;width:100vw!important;height:100dvh!important;min-height:0!important;margin:0!important;padding:calc(env(safe-area-inset-top) + 54px) 5vw calc(env(safe-area-inset-bottom) + 20px)!important;border:0!important;border-radius:0!important;box-shadow:none!important;background:var(--bg)!important;display:flex!important;flex-direction:column!important;align-items:center!important;justify-content:center!important;overflow:auto!important}
+body.hp-mobile-fullscreen #exerciseCard .chord{font-size:clamp(4rem,16vw,10rem)!important}
+body.hp-mobile-fullscreen #exerciseCard .fullscreen-action:not([hidden]){display:inline-block!important;margin:22px auto 0!important}
+body.hp-mobile-fullscreen #exerciseCard .fullscreen-exit{display:block!important;position:absolute!important;right:16px!important;top:calc(env(safe-area-inset-top) + 10px)!important}
+body.hp-mobile-fullscreen #exerciseCard .progress{width:90%!important}
+</style>
+</head>
+<body><main><div class="menu-row"><a class="menu-link" href="../">← Menu</a></div>
+<h1>Quintes justes</h1><p>Joue la quinte juste indiquée, puis écoute les deux notes de l’intervalle.</p>
+<section class="card" id="exerciseCard" aria-live="polite"><button type="button" id="exitFullscreen" class="fullscreen-exit" aria-label="Quitter le plein écran">✕ Quitter le plein écran</button><div class="chord" id="chord">Prêt ?</div><div class="count" id="count">12 quintes par série</div><div class="progress"><div class="bar" id="bar"></div></div><button type="button" class="primary fullscreen-action" id="fullscreenStart">Démarrer</button><button type="button" class="fullscreen-action" id="fullscreenPause" hidden>Pause</button></section>
+<div class="controls"><label for="speed">Temps par accord <select id="speed"><option value="1">1 s</option><option value="2">2 s</option><option value="3">3 s</option><option value="4">4 s</option><option value="6" selected>6 s</option><option value="8">8 s</option><option value="10">10 s</option><option value="12">12 s</option></select></label><button class="primary" id="start">Démarrer</button><button id="pause" disabled>Pause</button><button id="reset">Recommencer</button><button type="button" id="fullscreen" class="fullscreen-button">⛶ Plein écran</button></div>
+<div class="shortcut-help">Raccourcis : Entrée = démarrer · Espace = pause/reprendre · R = recommencer · Échap = quitter le plein écran</div>
+<small>Les 12 quintes justes apparaissent dans un ordre aléatoire, une fois chacune. À la fin du décompte, les deux notes retentissent successivement, puis ensemble.</small>
+</main><script>
+(()=>{
+  const roots=['Do','Do♯','Ré','Mi♭','Mi','Fa','Fa♯','Sol','La♭','La','Si♭','Si'];
+  const all=roots.map(n=>n+' — quinte juste');
+  const $=id=>document.getElementById(id);
+  const chord=$('chord'),count=$('count'),bar=$('bar'),speed=$('speed');
+  const start=$('start'),pause=$('pause'),reset=$('reset');
+  const pitch={'Do':0,'Do♯':1,'Ré':2,'Mi♭':3,'Mi':4,'Fa':5,'Fa♯':6,'Sol':7,'La♭':8,'La':9,'Si♭':10,'Si':11};
+  const soundLength=2500; // 2,5 s avant la triade suivante ; extinction du son à 2,5 s
+  let deck=[],idx=-1,remaining=0,last=0,timer=null,running=false,phase='idle';
+  let audioCtx=null,voices=[];
+  const duration=()=>Number(speed.value)*1000;
+  function shuffle(){deck=[...all];for(let i=deck.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[deck[i],deck[j]]=[deck[j],deck[i]];}}
+  function context(){if(!audioCtx)audioCtx=new (window.AudioContext||window.webkitAudioContext)();return audioCtx;}
+  function silence(){for(const v of voices){try{v.stop()}catch(e){}}voices=[];}
+  function playChord(){
+    const ctx=context();silence();
+    const root=deck[idx].replace(' — quinte juste','');
+    const midi=60+pitch[root];
+    const t=ctx.currentTime;
+    // Deux notes de la quinte juste : fondamentale, quinte, puis les deux ensemble.
+    // Oscillateurs harmoniques et enveloppes brèves pour un son de piano approché.
+    function note(semitones,offset,length,volume){
+      const f=440*Math.pow(2,(midi+semitones-69)/12);
+      const begin=t+offset,end=Math.min(t+2.48,begin+length);
+      for(const [harmonic,level] of [[1,.16],[2,.058],[3,.024],[4,.012]]){
+        const osc=ctx.createOscillator(),gain=ctx.createGain();
+        osc.type='sine';osc.frequency.value=f*harmonic;
+        osc.connect(gain);gain.connect(ctx.destination);
+        gain.gain.setValueAtTime(.00001,begin);
+        gain.gain.linearRampToValueAtTime(volume*level,begin+.012);
+        gain.gain.exponentialRampToValueAtTime(.00001,end);
+        osc.start(begin);osc.stop(end+.01);voices.push(osc);
+      }
+    }
+    note(0,0,.55,1);note(7,.55,.55,1);
+    note(0,1.18,1.25,.8);note(7,1.18,1.25,.8);
+  }
+  function display(){chord.textContent=deck[idx];count.textContent=`Quinte ${idx+1} sur 12`;phase='countdown';remaining=duration();bar.style.width='0%';}
+  function stopClock(){running=false;clearInterval(timer);timer=null;pause.disabled=true;start.disabled=false;speed.disabled=false;}
+  function finish(){stopClock();silence();phase='finished';chord.textContent='Terminé !';count.textContent='12 quintes parcourues';bar.style.width='100%';start.textContent='Nouvelle série';}
+  function tick(){
+    const now=performance.now();remaining-=now-last;last=now;
+    if(remaining<=0){
+      if(phase==='countdown'){
+        phase='sound';remaining=soundLength;bar.style.width='100%';count.textContent=`Écoute — quinte ${idx+1} sur 12`;playChord();
+      }else if(phase==='sound'){
+        silence();idx++;if(idx>=deck.length){finish();return;}display();
+      }
+    }
+    if(phase==='countdown')bar.style.width=`${Math.min(100,Math.max(0,100-remaining/duration()*100))}%`;
+  }
+  async function run(){
+    try{await context().resume()}catch(e){console.warn('Audio indisponible',e)}
+    running=true;last=performance.now();timer=setInterval(tick,40);
+    start.disabled=true;pause.disabled=false;pause.textContent='Pause';speed.disabled=true;
+  }
+  start.addEventListener('click',()=>{
+    if(running)return;
+    if(phase==='idle'||phase==='finished'){silence();shuffle();idx=0;display();start.textContent='Démarrer';}
+    run();
+  });
+  pause.addEventListener('click',async()=>{
+    if(running){
+      clearInterval(timer);timer=null;running=false;
+      if(audioCtx&&audioCtx.state==='running')await audioCtx.suspend();
+      pause.textContent='Reprendre';
+    }else if(phase==='countdown'||phase==='sound'){
+      await context().resume();running=true;last=performance.now();timer=setInterval(tick,40);pause.textContent='Pause';
+    }
+  });
+  reset.addEventListener('click',()=>{
+    stopClock();silence();if(audioCtx&&audioCtx.state==='suspended')audioCtx.resume();
+    idx=-1;deck=[];phase='idle';chord.textContent='Prêt ?';count.textContent='12 quintes par série';bar.style.width='0%';start.textContent='Démarrer';pause.textContent='Pause';
+  });
+  const card=$('exerciseCard'),fullBtn=$('fullscreen'),exitFull=$('exitFullscreen');
+  const fullscreenStart=$('fullscreenStart'),fullscreenPause=$('fullscreenPause');
+  fullscreenStart.addEventListener('click',()=>start.click());
+  fullscreenPause.addEventListener('click',()=>pause.click());
+  function syncFullscreenControls(){
+    fullscreenStart.hidden=start.disabled;
+    fullscreenStart.textContent=start.textContent;
+    fullscreenPause.hidden=pause.disabled;
+    fullscreenPause.textContent=pause.textContent;
+  }
+  new MutationObserver(syncFullscreenControls).observe(start,{attributes:true,childList:true,characterData:true,subtree:true});
+  new MutationObserver(syncFullscreenControls).observe(pause,{attributes:true,childList:true,characterData:true,subtree:true});
+  syncFullscreenControls();
+  function syncFullscreenLabel(){fullBtn.textContent=(document.fullscreenElement||document.body.classList.contains('hp-mobile-fullscreen'))?'⛶ Quitter le plein écran':'⛶ Plein écran'}
+  async function toggleFullscreen(){
+    if(document.body.classList.contains('hp-mobile-fullscreen')){document.body.classList.remove('hp-mobile-fullscreen');syncFullscreenLabel();return}
+    if(document.fullscreenElement){await document.exitFullscreen();syncFullscreenLabel();return}
+    if(card.requestFullscreen){try{await card.requestFullscreen();syncFullscreenLabel();return}catch(e){}}
+    document.body.classList.add('hp-mobile-fullscreen');syncFullscreenLabel();
+  }
+  fullBtn.addEventListener('click',toggleFullscreen);
+  exitFull.addEventListener('click',()=>{if(document.body.classList.contains('hp-mobile-fullscreen')){document.body.classList.remove('hp-mobile-fullscreen');syncFullscreenLabel()}else if(document.fullscreenElement)document.exitFullscreen()});
+  document.addEventListener('fullscreenchange',syncFullscreenLabel);
+  document.addEventListener('keydown',e=>{
+    if(e.altKey||e.ctrlKey||e.metaKey||e.repeat)return;
+    if(['SELECT','INPUT','TEXTAREA'].includes(document.activeElement?.tagName))return;
+    if(e.code==='Space'){
+      e.preventDefault();
+      if(!pause.disabled)pause.click();
+    }else if(e.code==='Enter'){
+      if(!start.disabled){e.preventDefault();start.click();}
+    }else if(e.code==='KeyR'){
+      e.preventDefault();reset.click();
+    }
+  });
+  speed.addEventListener('change' ,()=>{if(phase==='countdown'&&!running)remaining=duration();});
+})();
+</script></body></html>
